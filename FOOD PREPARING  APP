@@ -1,0 +1,360 @@
+list_foods = []  
+list_desc = []
+list_price = []
+list_drinks = []                 
+list_services = [] 
+list_history_order = []
+list_user = []
+users = {}
+
+admin_user = {'ADMIN':{'name': 'ADMIN', 'number': '1', 'email': 'ADMIN@ADMIN.COM', 'address': 'ADMIN PALACE', 'password': 'SUPERADMIN'}}
+
+ 
+list_item_price = [0] * 100       
+                                   
+var_discount_1 = 200                    
+var_discount_2 = 1000                     
+var_discount_3 = 5000                     
+var_discount_1_rate = 0.05                
+var_discount_2_rate = 0.10                
+var_discount_3_rate = 0.15  
+
+
+def def_default():
+    global users, list_user, list_drinks, list_foods, list_desc, list_price, list_services, list_item_order, list_item_price, list_history_order    
+    list_foods.append("TANDOORI CHICKEN")
+    list_foods.append("VEGAN BURGER")
+    list_foods.append("TRUFFLE CAKE")
+    list_desc.append("4 PEICE")
+    list_desc.append("1 PEICE")
+    list_desc.append("500 GM")
+    list_price.append("INR 240")
+    list_price.append("INR 320")
+    list_price.append("INR 900")
+    list_item_order = [0] * 100                  
+def_default()                                     
+
+
+def def_supermain():
+    while True:                                            
+        print("" * 31 + "MAIN MENU" + "" * 32 + "\n"     
+              "\t(R) REGISTER\n"
+              "\t(L) LOGIN\n"
+              "\t(E) EXIT\n" +
+              "_" * 72)
+        
+        input_1 = str(input("Please Select Your Operation: ")).upper()    
+        if (len(input_1) == 1):                                          
+            if (input_1 == 'R'):                                       
+                print("\n" * 10)                                         
+                def_register()                                             
+                break
+            elif (input_1 == 'L'):                                       
+                print("\n" * 10)                                         
+                def_login()                                             
+                break                                                
+            elif (input_1 == 'E'):                                       
+                print("" * 32 + "THANK YOU" + "" * 31 + "\n")         
+                break                                                    
+            else:                                                                                 
+                print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")   
+        else:                                                                                     
+            print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")
+
+
+def def_admin_function():
+    while True:                                            
+        print("" * 31 + "MAIN MENU" + "" * 32 + "\n"     
+              "\t(A) ADD FOOD ITEM\n"
+              "\t(I) EDIT FOOD ITEM\n"
+              "\t(V) VIEW FOOD ITEMS\n"
+              "\t(R) REMOVE FOOD ITEM\n"
+              "\t(E) EXIT\n" +
+              "_" * 72)
+        
+        input_1 = str(input("Please Select Your Operation: ")).upper()    
+        if (len(input_1) == 1):                                          
+            if (input_1 == 'R'):                                       
+                print("\n" * 10)                                         
+                def_food_remove()                                             
+                break
+            elif (input_1 == 'V'):                                       
+                print("\n" * 10)                                         
+                def_food_view()                                             
+                break
+            elif (input_1 == 'I'):                                       
+                print("\n" * 10)                                         
+                def_food_edit()                                             
+                break
+            elif (input_1 == 'A'):                                       
+                print("\n" * 10)                                         
+                def_food_add()                                             
+                break
+            elif (input_1 == 'E'):                                       
+                print("" * 32 + "THANK YOU" + "" * 31 + "\n")         
+                break                                                    
+            else:                                                                                 
+                print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")   
+        else:                                                                                     
+            print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")
+            
+
+def def_food_add():
+    print("Add new food item")
+    food = str(input("Please enter food name")).upper()
+    desc = str(input("Please enter food quantity")).upper()
+    price = str(input("Please enter food price")).upper()
+    discount = str(input("Please enter food discount")).upper()
+    stock = str(input("Please enter food stock")).upper()
+    list_foods.append(food)
+    list_desc.append(desc)
+    list_price.append(price)
+    print("Food item added successfully.")
+    def_admin_function()
+
+def def_food_edit():
+    food_id = str(input("Please enter food id to edit food item")).upper()
+    food_id = int(food_id)
+    if(len(list_foods)<food_id):
+        print("invalid food id")
+        def_admin_function()
+    else:
+        print("edit food item")
+        food = str(input("Please enter food name")).upper()
+        desc = str(input("Please enter food quantity")).upper()
+        price = str(input("Please enter food price")).upper()
+        list_foods[food_id-1]=food
+        list_desc[food_id-1]=desc
+        list_price[food_id-1]=price
+    def_admin_function()
+    
+def def_food_view():
+    print("Below are available food items")
+    for i in list_foods:
+        print(i)
+    def_admin_function()
+    
+def def_food_remove():
+    food_id = str(input("Please enter food id to reomve food item")).upper()
+    food_id = int(food_id)
+    del list_foods[food_id-1]
+    del list_desc[food_id-1]
+    del list_price[food_id-1]
+    def_admin_function()
+    
+    
+            
+def def_login():
+    name = str(input("Please enter your name to login")).upper()
+    password = str(input("Please enter your password")).upper()
+    if name in admin_user.keys():
+        #admin functions
+        if admin_user[name]["password"] == password:
+            def_admin_function()
+    elif name in users.keys():
+        #do something
+        if users[name]["password"]==password:
+            print("Welcome "+name)
+            def_main()
+        else:
+            print("login failed")
+            def_supermain()
+    else:
+        print("invalid user")
+            
+def def_main():
+    while True:                                            
+        print("" * 31 + "MAIN MENU" + "" * 32 + "\n"
+              "\t(O) PLACE NEW ORDER\n"                              
+              "\t(H) ORDER HISTORY\n"
+              "\t(P) UPDATE PROFILE\n"
+              "\t(E) EXIT\n" +
+              "_" * 72)
+ 
+        input_1 = str(input("Please Select Your Operation: ")).upper()    
+        if (len(input_1) == 1):                                          
+            if (input_1 == 'O'):                                          
+                print("\n" * 10)                                         
+                def_order_menu()                                        
+                break                                                     
+            elif (input_1 == 'R'):                                       
+                print("\n" * 10)                                         
+                def_register()                                             
+                break
+            elif (input_1 == 'H'):                                       
+                print("\n" * 10)                                         
+                def_history()                                             
+                break                                                     
+            elif (input_1 == 'P'):                                        
+                print("\n" * 10)                                        
+                def_profile()                                             
+                break                                                    
+            elif (input_1 == 'E'):                                       
+                print("" * 32 + "THANK YOU" + "" * 31 + "\n")         
+                break                                                    
+            else:                                                                                 
+                print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")   
+        else:                                                                                     
+            print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")  
+            
+
+def def_main_or_exit():
+    print("\n (M) MAIN MENU                   (E) EXIT\n" + "_" * 72)
+ 
+    input_1 = input("Please Select Your Operation: ").upper() 
+    if (input_1 == 'M'):
+        print("\n" * 10)
+        def_main()
+        #break
+    if (input_1 == 'E'):
+        print("" * 32 + "THANK YOU" + "" * 31 + "\n") 
+        #break
+            
+def def_profile():
+    input_1 = str(input("Do you want to update your profile? Enter y/n ")).upper()
+    if(input_1=="Y"):
+        input_1 = str(input("enter your name ")).upper()
+        if input_1 in users.keys():
+            def_register()
+            print("\n updated successfully.")
+        else:
+            print("user does not exist")
+    def_main_or_exit()
+        
+            
+def def_history():
+    
+    for items in list_history_order:
+        print("\n")
+        for i in items:
+            print(list_foods[i])
+    def_main_or_exit()        
+
+def def_register():
+    user_map = {}
+    #while True:
+    input_1 = str(input("Please enter your full name: ")).upper()
+    user_map["name"] = input_1
+    input_1 = str(input("Please enter your phone number: ")).upper()
+    user_map["number"] = input_1
+    input_1 = str(input("Please enter your email: ")).upper()
+    user_map["email"] = input_1
+    input_1 = str(input("Please enter your address: ")).upper()
+    user_map["address"] = input_1
+    input_1 = str(input("Please enter your password: ")).upper()
+    user_map["password"] = input_1
+    
+    users[user_map["name"]] = user_map
+    print(user_map)
+    
+    def_login()
+            
+
+def def_order_menu():                                                                              
+    while True:                                            
+        print("" * 31 + "ORDER PAGE" + "" * 31 + "\n"     
+              "\t(F) FOODS AND DRINKS\n"
+              "\t(M) MAIN MENU\n"
+              "\t(E) EXIT\n" +
+              "_" * 72)
+ 
+        input_1 = str(input("Please Select Your Operation: ")).upper() 
+        if len(input_1) == 1:
+            if (input_1 == 'F'): 
+                print("\n" * 10)
+                def_food_drink_order() 
+            elif (input_1 == 'O'):
+                print("\n" * 10)
+                def_other_services() 
+                break
+            elif (input_1 == 'M'):
+                print("\n" * 10)
+                def_main() 
+                break
+            elif (input_1 == 'E'):
+                print("" * 32 + "THANK YOU" + "" * 31 + "\n")
+                break
+            else:
+                print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")
+        else:
+            print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")
+            
+
+
+def def_food_drink_order():
+    list_history=[]
+    while True:
+            print("" * 26 + "ORDER FOODS &amp; DRINKS" + "" * 26)
+            
+ 
+            i = 0
+            while i < len(list_foods) or i < len(list_drinks):
+                var_space = 1
+                if i <= 8:                     
+                    var_space = 2
+ 
+                if i < len(list_foods):
+                    food = " (" + str(i + 1) + ")" + " " * var_space + str(list_foods[i]) + "  | " + str(list_desc[i]) + "  | "+str(list_price[i]) + "  | " 
+                else:
+                    food = " " * 36 + "| "
+                    
+                if 1<0:
+                    if i < len(list_desc):
+                        drink = "(" + str(41 + i) + ")" + " " + str(list_desc[i])
+                    else:
+                        drink = ""
+                    if i < len(list_price):
+                        price = "(" + str(41 + i) + ")" + " " + str(list_price[i])
+                    else:
+                        price = ""
+                #print(food, drink, price)
+                print(food)
+                i += 1
+ 
+            print("\n (M) MAIN MENU                             (E) EXIT\n" + "_" * 72)
+ 
+            input_1 = input("Please Select Your Operation: ").upper() 
+            if (input_1 == 'M'):
+                print("\n" * 10)
+                def_main()
+                break
+            if (input_1 == 'E'):
+                print("" * 32 + "THANK YOU" + "" * 31 + "\n") 
+                break
+            
+            try:        
+                #int(input_1)
+                input_1=input_1.replace("[","")
+                input_1=input_1.replace("]","")
+                selected = input_1.split(",")
+                
+               
+                if len(selected)<=len(list_foods):     
+                    try:
+                        
+                        print("\n" + "_" * 72 + "\n")
+                        for i in selected:
+                            print(str(list_foods[int(i) - 1]) +"\n")
+                    except:
+                        pass 
+                    input_2 = input("How Many You Want to Order?: ").upper() 
+                    if int(input_2) > 0:
+                        for i in selected:
+                            list_item_order[int(i) - 1] += int(input_2)
+                            list_history.append(int(i)-1)
+                        input_1000 = input("DO YOU WANT TO PLACE THE ORDER? \n ENTER Y/N: ").upper()
+                        if(input_1000=="Y"):
+                            list_history_order.append(list_history)
+                            print("\n" * 10)
+                            print("Successfully Ordered!")
+                        def_food_drink_order() 
+                        break
+                    else:
+                        print("\n" * 10 + "ERROR: Invalid Input (" + str(input_2) + "). Try again!")
+            except:
+                print("\n" * 10 + "ERROR: Invalid Input (" + str(input_1) + "). Try again!")
+                                                            
+
+
+                                         
+def_supermain()
